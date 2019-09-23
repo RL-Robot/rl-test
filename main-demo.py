@@ -1,5 +1,6 @@
 from maze_env import Maze
 from dqn.RL_brain import DeepQNetwork
+from time import sleep
 
 
 ### RL is the class name of DeepQNetwork
@@ -41,6 +42,10 @@ def run_maze():
     env.destroy()
 
 
+def check_ready():
+    ready = True
+
+
 if __name__ == "__main__":
     # maze game
     env = Maze()
@@ -52,6 +57,10 @@ if __name__ == "__main__":
                       memory_size=2000,
                       # output_graph=True
                       )
-    env.after(100, run_maze)
+    ready = False
+    env.after(100, check_ready)
+    while not ready:
+        sleep(1)
     env.mainloop()
+    run_maze()
     RL.plot_cost()
